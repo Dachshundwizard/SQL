@@ -1,3 +1,25 @@
+hello!
+
+SELECT attribute-list
+FROM table-name
+WHERE condition
+
+USE AdventureWorks2012;
+GO
+SELECT DISTINCT pp.LastName, pp.FirstName
+FROM Person.Person pp JOIN HumanResources.Employee e
+ON e.BusinessEntityID = pp.BusinessEntityID WHERE pp.BusinessEntityID IN
+(SELECT SalesPersonID
+FROM Sales.SalesOrderHeader
+WHERE SalesOrderID IN
+(SELECT SalesOrderID
+FROM Sales.SalesOrderDetail
+WHERE ProductID IN
+(SELECT ProductID
+FROM Production.Product p
+WHERE ProductNumber = 'BK-M68B-42')));
+GO
+
 -- show the name and population for 'Sweden', 'Norway', 'Denmark'
 
 SELECT name, population FROM world
@@ -12,6 +34,28 @@ WHERE area BETWEEN 200000 AND 250000
 SELECT name FROM world
 WHERE population >= 200000000
 
--- Give the name and the per capita GDP for those countries with a population of at least 200 million.
+SELECT name, area
+FROM maps
+WHERE area BETWEEN 207600 AND 244820
 
-SELECT name, per capita 
+-- Random usage of 'WHERE' as a filter.
+SELECT name, region
+FROM bbc
+WHERE area < 2000
+  AND gdp > 500000000000000000
+
+-- Random usage of "IN", which allows us to check if an item is in a list.
+
+SELECT name
+FROM bbc
+WHERE name IN ('Sri Lanka', 'Ceylon', 'Persia', 'Mexico')
+
+-- What are the countries beginning with D? The word 'LIKE' permits pattern matching - % is the wildcard.
+SELECT *
+FROM maps
+WHERE name LIKE 'D%'
+
+
+SELECT name
+FROM world
+WHERE population <= 2000000000
